@@ -15,7 +15,7 @@ const TaxApp = () => {
                 onChange={(e) => setSalary(e.target.value)}
             />
             <button
-                onClick={() => console.log(salary)}
+                onClick={() => console.log(` Hello your salsary is ${salary}`)}
             >Calculate Take Home Pay</button>
 
 
