@@ -1,0 +1,20 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.2rem;
+    background: url('../../images/pinkPig.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: darkslategray;
+    line-height: 1.6;
+}
+
+.button {
+    cursor: pointer;
+}
+
+
+* {
+    box-sizing: border-box;
+}
