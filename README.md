@@ -1,3 +1,5 @@
+### Jon Beasley Take Home Pay App
+
 ### `yarn start`
 
 Runs the app in the development mode.\
