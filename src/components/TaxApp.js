@@ -55,7 +55,6 @@ const TaxApp = () => {
                             } else {
                                 setInputError(true)
                                 setResultsVisisble(false)
-
                             }
                         } else {
                             setInputError(true)
