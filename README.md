@@ -10,4 +10,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 # Break out results into its own component
 # Break out calculator logic into a named function
-# Adding Automated Test Suite
+# Fixed a bug that did not alloow you to enter a 15000 salary
+
+## Adding Automated Test Suite
+# snapshot tests for our components

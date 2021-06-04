@@ -19,7 +19,8 @@ const TaxApp = () => {
                     setannualNIDue(0)
                     setannualTaxDue(0)
                     setResultsVisisble(true)
-                } else if (salary > 15000 && salary < 50000) {
+                    return [salary, 0, 0, true]
+                } else if (salary >= 15000 && salary < 50000) {
                     let taxFree = 15000
                     let midTax = (salary - taxFree) * 0.2
                     let midNI = (salary - taxFree) * 0.12
@@ -27,7 +28,8 @@ const TaxApp = () => {
                     setannualNIDue(midNI)
                     setannualTaxDue(midTax)
                     setResultsVisisble(true)
-                } else if (salary > 50000) {
+                    return [salary - midTax - midNI, midNI, midTax, true]
+                } else if (salary >= 50000) {
                     let aboveFiftyK = salary - 50000
                     let topTax = 7000 + (aboveFiftyK * 0.4)
                     let topNI = 4200 + (aboveFiftyK * 0.02)
@@ -35,6 +37,7 @@ const TaxApp = () => {
                     setannualNIDue(topNI)
                     setannualTaxDue(topTax)
                     setResultsVisisble(true)
+                    return [salary - topTax - topNI, topNI, topTax, true]
                 }
 
             } else {

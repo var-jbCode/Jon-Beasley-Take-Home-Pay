@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should Render Results Correctly without Props 1`] = `
+<div
+  className="results"
+>
+  <p>
+    <b>
+      Your Take Home Pay is £
+    </b>
+  </p>
+  <p>
+    Your Annual Tax due is £
+  </p>
+  <p>
+    Your Annual NI due is £
+  </p>
+</div>
+`;
