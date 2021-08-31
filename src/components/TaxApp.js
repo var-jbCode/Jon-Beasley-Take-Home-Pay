@@ -10,7 +10,7 @@ const TaxApp = () => {
 	const [resultsVisible, setResultsVisisble] = useState();
 	const [isInputError, setIsInputError] = useState(false);
 
-	const calculateLogic = () => {
+	const calculateTakeHomePay = () => {
 		const untaxableIncome = 15000;
 		const topTaxBraket = 50000;
 		const precalculatedTax = 7000;
@@ -73,19 +73,24 @@ const TaxApp = () => {
 				{isInputError && (
 					<p>Please only enter a integer salary without comma seperation :)</p>
 				)}
-				£{' '}
+				£
 				<input
 					className="text-input"
-					type="text"
+					type="number"
 					name="salaryInput"
 					id="salaryInput"
 					placeholder="Put your Salary in here!"
 					onChange={(e) => setSalary(e.target.value)}
+					onKeyPress={(e) => {
+						if (e.key === 'Enter') {
+							calculateTakeHomePay();
+						}
+					}}
 				/>
-				<button className="button" onClick={calculateLogic}>
+				<button className="button" onClick={calculateTakeHomePay}>
 					Calculate Take Home Pay
 				</button>
-			</div>{' '}
+			</div>
 			{resultsVisible && (
 				<Results
 					takeHome={takeHome}
