@@ -10,8 +10,6 @@
 
 ### Break out calculator logic into a named function
 
-### Fixed a bug that did not alloow you to enter a 15000 salary
-
 ## Adding Automated Test Suite
 
 ### snapshot tests for our components
