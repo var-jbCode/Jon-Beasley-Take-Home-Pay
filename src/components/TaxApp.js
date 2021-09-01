@@ -8,7 +8,7 @@ const TaxApp = () => {
 	const [annualNIDue, setAnnualNIDue] = useState();
 	const [takeHome, setTakeHome] = useState();
 	const [resultsVisible, setResultsVisisble] = useState();
-	const [isInputError, setIsInputError] = useState(false);
+	const [inputError, setInputError] = useState(false);
 
 	const calculateTakeHomePay = () => {
 		const untaxableIncome = 15000;
@@ -21,48 +21,51 @@ const TaxApp = () => {
 		};
 
 		const isSalaryLessThanTopTaxBraket = () => {
-			return salary >= untaxableIncome;
+			return salary <= topTaxBraket;
 		};
 
 		const isSalaryGreaterThanTopTaxBraket = () => {
 			return salary >= topTaxBraket;
 		};
 
-		if (salary) {
-			if (salary.match(/\d+/)) {
-				setIsInputError(false);
-				if (salary < untaxableIncome) {
-					setTakeHome(salary);
-					setAnnualNIDue(0);
-					setAnnualTaxDue(0);
-					setResultsVisisble(true);
-				} else if (
-					isSalaryGreaterThanUntaxable &&
-					isSalaryLessThanTopTaxBraket
-				) {
-					let taxFree = untaxableIncome;
-					let midTax = (salary - taxFree) * 0.2;
-					let midNI = (salary - taxFree) * 0.12;
-					setTakeHome(salary - midTax - midNI);
-					setAnnualNIDue(midNI);
-					setAnnualTaxDue(midTax);
-					setResultsVisisble(true);
-				} else if (isSalaryGreaterThanTopTaxBraket) {
-					let aboveTopTaxBraket = salary - topTaxBraket;
-					let topTax = precalculatedTax + aboveTopTaxBraket * 0.4;
-					let topNI = precalculatedNI + aboveTopTaxBraket * 0.02;
-					setTakeHome(salary - topTax - topNI);
-					setAnnualNIDue(topNI);
-					setAnnualTaxDue(topTax);
-					setResultsVisisble(true);
-				}
-			} else {
-				setIsInputError(true);
-				setResultsVisisble(false);
-			}
-		} else {
-			setIsInputError(true);
+		const renderUntaxableValues = (income) => {
+			setTakeHome(income);
+			setAnnualNIDue(0);
+			setAnnualTaxDue(0);
+			setResultsVisisble(true);
+		};
+
+		const renderMidValues = (income) => {
+			let midTax = (income - untaxableIncome) * 0.2;
+			let midNI = (income - untaxableIncome) * 0.12;
+			setTakeHome(income - midTax - midNI);
+			setAnnualNIDue(midNI);
+			setAnnualTaxDue(midTax);
+			setResultsVisisble(true);
+		};
+
+		const renderTopValues = (income) => {
+			let aboveTopTaxBraket = income - topTaxBraket;
+			let topTax = precalculatedTax + aboveTopTaxBraket * 0.4;
+			let topNI = precalculatedNI + aboveTopTaxBraket * 0.02;
+			setTakeHome(income - topTax - topNI);
+			setAnnualNIDue(topNI);
+			setAnnualTaxDue(topTax);
+			setResultsVisisble(true);
+		};
+
+		if (!salary) {
+			setInputError(true);
 			setResultsVisisble(false);
+		} else {
+			setInputError(false);
+			if (salary < untaxableIncome) {
+				renderUntaxableValues(salary);
+			} else if (isSalaryGreaterThanUntaxable && isSalaryLessThanTopTaxBraket) {
+				renderMidValues(salary);
+			} else if (isSalaryGreaterThanTopTaxBraket) {
+				renderTopValues(salary);
+			}
 		}
 	};
 
@@ -70,10 +73,10 @@ const TaxApp = () => {
 		<div className="container">
 			<div>
 				<h1>Your "Take Home" Pay Calculator</h1>
-				{isInputError && (
+				{inputError && (
 					<p>Please only enter a integer salary without comma seperation :)</p>
 				)}
-				£
+				Salary: £
 				<input
 					className="text-input"
 					type="number"
