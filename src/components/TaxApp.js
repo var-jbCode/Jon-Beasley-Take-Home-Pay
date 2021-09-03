@@ -15,43 +15,53 @@ const TaxApp = () => {
 		const topTaxBraket = 50000;
 		const precalculatedTax = 7000;
 		const precalculatedNI = 4200;
+		const midTaxRate = 0.2;
+		const midNIRate = 0.12;
+		const topTaxRate = 0.4;
+		const topNIRate = 0.02;
 
-		const isSalaryGreaterThanUntaxable = () => {
-			return salary >= untaxableIncome;
-		};
+		const isSalaryLessThanUntaxable = salary < untaxableIncome;
 
-		const isSalaryLessThanTopTaxBraket = () => {
-			return salary <= topTaxBraket;
-		};
+		const isSalaryGreaterThanUntaxable = salary >= untaxableIncome;
 
-		const isSalaryGreaterThanTopTaxBraket = () => {
-			return salary >= topTaxBraket;
-		};
+		const isSalaryLessThanTopTaxBraket = salary <= topTaxBraket;
+
+		const isSalaryGreaterThanTopTaxBraket = salary >= topTaxBraket;
+
+		const aboveTopTaxBraket = salary - topTaxBraket;
 
 		const renderUntaxableValues = (income) => {
 			setTakeHome(income);
 			setAnnualNIDue(0);
 			setAnnualTaxDue(0);
-			setResultsVisisble(true);
+		};
+
+		const midTax = (income) => {
+			return (income - untaxableIncome) * midTaxRate;
+		};
+
+		const midNI = (income) => {
+			return (income - untaxableIncome) * midNIRate;
 		};
 
 		const renderMidValues = (income) => {
-			let midTax = (income - untaxableIncome) * 0.2;
-			let midNI = (income - untaxableIncome) * 0.12;
-			setTakeHome(income - midTax - midNI);
-			setAnnualNIDue(midNI);
-			setAnnualTaxDue(midTax);
-			setResultsVisisble(true);
+			setTakeHome(income - midTax(income) - midNI(income));
+			setAnnualNIDue(midNI(income));
+			setAnnualTaxDue(midTax(income));
+		};
+
+		const topTax = () => {
+			return precalculatedTax + aboveTopTaxBraket * topTaxRate;
+		};
+
+		const topNI = () => {
+			return precalculatedNI + aboveTopTaxBraket * topNIRate;
 		};
 
 		const renderTopValues = (income) => {
-			let aboveTopTaxBraket = income - topTaxBraket;
-			let topTax = precalculatedTax + aboveTopTaxBraket * 0.4;
-			let topNI = precalculatedNI + aboveTopTaxBraket * 0.02;
-			setTakeHome(income - topTax - topNI);
+			setTakeHome(income - topTax() - topNI());
 			setAnnualNIDue(topNI);
 			setAnnualTaxDue(topTax);
-			setResultsVisisble(true);
 		};
 
 		if (!salary) {
@@ -59,13 +69,14 @@ const TaxApp = () => {
 			setResultsVisisble(false);
 		} else {
 			setInputError(false);
-			if (salary < untaxableIncome) {
+			if (isSalaryLessThanUntaxable) {
 				renderUntaxableValues(salary);
 			} else if (isSalaryGreaterThanUntaxable && isSalaryLessThanTopTaxBraket) {
 				renderMidValues(salary);
 			} else if (isSalaryGreaterThanTopTaxBraket) {
 				renderTopValues(salary);
 			}
+			setResultsVisisble(true);
 		}
 	};
 
