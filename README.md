@@ -1,6 +1,6 @@
 # Jon Beasley Take Home Pay App
 
 ## Getting setup
-Install Node Modules: `yarn install`
-Local Server: `yarn start`, Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-Test Suite: `yarn test`
+### Install Node Modules: `yarn install`
+### Local Server: `yarn start`, runs on localhost:3000
+### Test Suite: `yarn test`
