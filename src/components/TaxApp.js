@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import Results from './Results';
+import TAMaths from '../Maths/TaxApp.maths';
 
 const TaxApp = () => {
 	const [salary, setSalary] = useState();
@@ -11,55 +12,40 @@ const TaxApp = () => {
 	const [inputError, setInputError] = useState(false);
 
 	const calculateTakeHomePay = () => {
-		const untaxableIncome = 15000;
-		const topTaxBraket = 50000;
-		const precalculatedTax = 7000;
-		const precalculatedNI = 4200;
-		const midTaxRate = 0.2;
-		const midNIRate = 0.12;
-		const topTaxRate = 0.4;
-		const topNIRate = 0.02;
+		const isSalaryLessThanUntaxable =
+			salary < TAMaths.constants.untaxableIncome;
 
-		const isSalaryLessThanUntaxable = salary < untaxableIncome;
+		const isSalaryGreaterThanUntaxable =
+			salary >= TAMaths.constants.untaxableIncome;
 
-		const isSalaryGreaterThanUntaxable = salary >= untaxableIncome;
+		const isSalaryLessThanTopTaxBraket =
+			salary <= TAMaths.constants.topTaxBraket;
 
-		const isSalaryLessThanTopTaxBraket = salary <= topTaxBraket;
-
-		const isSalaryGreaterThanTopTaxBraket = salary >= topTaxBraket;
-
-		const aboveTopTaxBraket = salary - topTaxBraket;
+		const isSalaryGreaterThanTopTaxBraket =
+			salary >= TAMaths.constants.topTaxBraket;
 
 		const renderUntaxableValues = (income) => {
-			setTakeHome(income);
+			setTakeHome(TAMaths.functions.untaxableTakeHomePay(income));
 			setAnnualNIDue(0);
 			setAnnualTaxDue(0);
 		};
 
-		const midTax = (income) => {
-			return (income - untaxableIncome) * midTaxRate;
-		};
-
-		const midNI = (income) => {
-			return (income - untaxableIncome) * midNIRate;
-		};
-
 		const renderMidValues = (income) => {
-			setTakeHome(income - midTax(income) - midNI(income));
-			setAnnualNIDue(midNI(income));
-			setAnnualTaxDue(midTax(income));
-		};
-
-		const topTax = () => {
-			return precalculatedTax + aboveTopTaxBraket * topTaxRate;
-		};
-
-		const topNI = () => {
-			return precalculatedNI + aboveTopTaxBraket * topNIRate;
+			setTakeHome(
+				income -
+					TAMaths.functions.midTax(income) -
+					TAMaths.functions.midNI(income)
+			);
+			setAnnualNIDue(TAMaths.functions.midNI(income));
+			setAnnualTaxDue(TAMaths.functions.midTax(income));
 		};
 
 		const renderTopValues = (income) => {
-			setTakeHome(income - topTax() - topNI());
+			setTakeHome(
+				income -
+					TAMaths.functions.topTax(income) -
+					TAMaths.functions.topNI(income)
+			);
 			setAnnualNIDue(topNI);
 			setAnnualTaxDue(topTax);
 		};
