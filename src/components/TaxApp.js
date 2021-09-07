@@ -46,8 +46,8 @@ const TaxApp = () => {
 					TAMaths.functions.topTax(income) -
 					TAMaths.functions.topNI(income)
 			);
-			setAnnualNIDue(topNI);
-			setAnnualTaxDue(topTax);
+			setAnnualNIDue(TAMaths.functions.topNI(income));
+			setAnnualTaxDue(TAMaths.functions.topTax(income));
 		};
 
 		if (!salary) {
